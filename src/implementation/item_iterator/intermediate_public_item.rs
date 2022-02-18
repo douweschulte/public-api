@@ -19,24 +19,24 @@ use std::fmt::Result;
 /// is expected that it will form part of the public API of this crate, but with
 /// a much more condensed and strict API surface of course.
 #[derive(Debug, Clone)]
-pub struct PublicItem<'a> {
+pub struct IntermediatePublicItem<'a> {
     /// The item we are effectively wrapping.
     pub item: &'a Item,
 
     /// The parent item. If [Self::item] is e.g. an enum variant, then the
     /// parent is an enum. We follow the chain of parents to be able to know the
     /// correct path to an item in the output.
-    parent: Option<Rc<PublicItem<'a>>>,
+    parent: Option<Rc<IntermediatePublicItem<'a>>>,
 }
 
-impl<'a> PublicItem<'a> {
+impl<'a> IntermediatePublicItem<'a> {
     #[must_use]
-    pub fn new(item: &'a Item, parent: Option<Rc<PublicItem<'a>>>) -> Self {
+    pub fn new(item: &'a Item, parent: Option<Rc<IntermediatePublicItem<'a>>>) -> Self {
         Self { item, parent }
     }
 
     #[must_use]
-    pub fn path(&'a self) -> Vec<Rc<PublicItem<'a>>> {
+    pub fn path(&'a self) -> Vec<Rc<IntermediatePublicItem<'a>>> {
         let mut path = vec![];
 
         let rc_self = Rc::new(self.clone());
@@ -103,7 +103,7 @@ impl<'a> PublicItem<'a> {
 
 /// Decides what should be shown at the end of each item, i.e. item-specific
 /// type information.
-struct ItemSuffix<'a>(&'a PublicItem<'a>);
+struct ItemSuffix<'a>(&'a IntermediatePublicItem<'a>);
 impl Display for ItemSuffix<'_> {
     fn fmt(&self, f: &mut Formatter<'_>) -> Result {
         match &self.0.item.inner {
