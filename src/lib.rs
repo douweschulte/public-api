@@ -28,7 +28,7 @@ pub struct PuuuublicIttttem {
 /// we implement `Display`.
 impl Display for PuuuublicIttttem {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "{}{}{}", self.prefix, self.path, self.suffix)
+        write!(f, "{:<12}{}{}", self.prefix, self.path, self.suffix)
     }
 }
 
