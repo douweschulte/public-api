@@ -11,7 +11,7 @@ use item_iterator::ItemIterator;
 pub use item_iterator::PublicItem;
 
 pub fn public_items_in_crate(crate_: &Crate) -> impl Iterator<Item = crate::PuuuublicIttttem> + '_ {
-    ItemIterator::new(crate_).map(|f| intermediate_public_item_to_public_item(&f))
+    ItemIterator::new(crate_).map(|p| intermediate_public_item_to_public_item(&p))
 }
 
 fn intermediate_public_item_to_public_item(public_item: &Rc<PublicItem<'_>>) -> PuuuublicIttttem {
