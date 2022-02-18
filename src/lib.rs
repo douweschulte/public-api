@@ -6,11 +6,11 @@ use std::fmt::Display;
 /// Enumerates all errors that can occur within this crate.
 pub use error::Error;
 
-/// Shorthand for [std::result::Result<T, crate::Error>].
+/// Shorthand for [`std::result::Result<T, crate::Error>`].
 pub use error::Result;
 
 /// Represent a public item of an analyzed crate, i.e. an item that forms part
-/// of the public API of a crate. Implements [std::fmt::Display] so it can be
+/// of the public API of a crate. Implements [`std::fmt::Display`] so it can be
 /// printed.
 pub struct PuuuublicIttttem {
     /// Private implementation detail. The "pub struct/fn/..." part of an item.
