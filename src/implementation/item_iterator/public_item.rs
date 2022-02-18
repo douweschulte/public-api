@@ -71,7 +71,7 @@ impl<'a> PublicItem<'a> {
             ItemEnum::Struct(_) => "struct",
             ItemEnum::StructField(_) => "struct field",
             ItemEnum::Enum(_) => "enum",
-            ItemEnum::Variant(_) => "variant",
+            ItemEnum::Variant(_) => "enum variant",
             ItemEnum::Function(_) | ItemEnum::Method(_) => "fn",
             ItemEnum::Trait(_) => "trait",
             ItemEnum::TraitAlias(_) => "trait alias",
