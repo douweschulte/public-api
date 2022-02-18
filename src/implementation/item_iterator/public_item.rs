@@ -69,7 +69,7 @@ impl<'a> PublicItem<'a> {
             ItemEnum::Import(_) => "use",
             ItemEnum::Union(_) => "union",
             ItemEnum::Struct(_) => "struct",
-            ItemEnum::StructField(_) => "field",
+            ItemEnum::StructField(_) => "struct field",
             ItemEnum::Enum(_) => "enum",
             ItemEnum::Variant(_) => "variant",
             ItemEnum::Function(_) | ItemEnum::Method(_) => "fn",
