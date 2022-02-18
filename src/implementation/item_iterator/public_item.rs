@@ -57,31 +57,32 @@ impl<'a> PublicItem<'a> {
         format!("pub {} ", self.type_string_for_item())
     }
 
-    pub(crate) fn suffix(&self) -> String {
+    #[must_use]
+    pub fn suffix(&self) -> String {
         format!("{}", ItemSuffix(self))
     }
 
     fn type_string_for_item(&self) -> &str {
         match &self.item.inner {
-            ItemEnum::Module(_) => "mod",
+            ItemEnum::Module(_) => "mod         ",
             ItemEnum::ExternCrate { .. } => "extern crate",
-            ItemEnum::Import(_) => "use",
-            ItemEnum::Union(_) => "union",
-            ItemEnum::Struct(_) => "struct",
+            ItemEnum::Import(_) => "use         ",
+            ItemEnum::Union(_) => "union       ",
+            ItemEnum::Struct(_) => "struct      ",
             ItemEnum::StructField(_) => "struct field",
-            ItemEnum::Enum(_) => "enum",
+            ItemEnum::Enum(_) => "enum        ",
             ItemEnum::Variant(_) => "enum variant",
-            ItemEnum::Function(_) | ItemEnum::Method(_) => "fn",
-            ItemEnum::Trait(_) => "trait",
-            ItemEnum::TraitAlias(_) => "trait alias",
-            ItemEnum::Impl(_) => "impl",
-            ItemEnum::Typedef(_) | ItemEnum::AssocType { .. } => "type",
-            ItemEnum::OpaqueTy(_) => "opaque ty",
-            ItemEnum::Constant(_) | ItemEnum::AssocConst { .. } => "const",
-            ItemEnum::Static(_) => "static",
+            ItemEnum::Function(_) | ItemEnum::Method(_) => "fn          ",
+            ItemEnum::Trait(_) => "trait       ",
+            ItemEnum::TraitAlias(_) => "trait alias ",
+            ItemEnum::Impl(_) => "impl        ",
+            ItemEnum::Typedef(_) | ItemEnum::AssocType { .. } => "type        ",
+            ItemEnum::OpaqueTy(_) => "opaque ty   ",
+            ItemEnum::Constant(_) | ItemEnum::AssocConst { .. } => "const       ",
+            ItemEnum::Static(_) => "static      ",
             ItemEnum::ForeignType => "foreign type",
-            ItemEnum::Macro(_) => "macro",
-            ItemEnum::ProcMacro(_) => "proc macro",
+            ItemEnum::Macro(_) => "macro       ",
+            ItemEnum::ProcMacro(_) => "proc macro  ",
             ItemEnum::PrimitiveType(name) => name,
         }
     }
