@@ -2,8 +2,8 @@ use std::{collections::HashMap, rc::Rc};
 
 use rustdoc_types::{Crate, Id, Impl, Item, ItemEnum, Type};
 
-mod public_item;
-pub use public_item::IntermediatePublicItem;
+mod intermediate_public_item;
+pub use intermediate_public_item::IntermediatePublicItem;
 
 /// Iterates over all items in a crate. Iterating over items has the benefit of
 /// behaving properly when:
