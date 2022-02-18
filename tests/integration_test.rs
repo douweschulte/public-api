@@ -17,7 +17,7 @@ fn thiserror_v1_0_30() {
 }
 
 fn assert_public_items(rustdoc_json_str: &str, expected_output: &str) {
-    let mut actual: Vec<String> =
+    let actual: Vec<String> =
         public_items::sorted_public_items_from_rustdoc_json_str(rustdoc_json_str)
             .unwrap()
             .into_iter()

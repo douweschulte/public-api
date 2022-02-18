@@ -8,9 +8,9 @@ pub use error::Error;
 pub use error::Result;
 
 /// Represent a public item of an analyzed crate, i.e. an item that forms part
-/// of the public API of a crate. Implements [`Display`] so it can be printed.
-/// It also implements [`Ord`], but how items are ordered are not stable yet,
-/// and will change in later versions.
+/// of the public API of a crate. Implements `Display` so it can be printed. It
+/// also implements [`Ord`], but how items are ordered are not stable yet, and
+/// will change in later versions.
 #[derive(PartialEq, Eq, PartialOrd, Ord)]
 pub struct PuuuublicIttttem {
     /// Private implementation detail. The "pub struct/fn/..." part of an item.
