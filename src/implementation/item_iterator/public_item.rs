@@ -30,10 +30,12 @@ pub struct PublicItem<'a> {
 }
 
 impl<'a> PublicItem<'a> {
+    #[must_use]
     pub fn new(item: &'a Item, parent: Option<Rc<PublicItem<'a>>>) -> Self {
         Self { item, parent }
     }
 
+    #[must_use]
     pub fn path(&'a self) -> Vec<Rc<PublicItem<'a>>> {
         let mut path = vec![];
 
@@ -50,6 +52,7 @@ impl<'a> PublicItem<'a> {
         path
     }
 
+    #[must_use]
     pub fn prefix(&'a self) -> String {
         format!("pub {} ", self.type_string_for_item())
     }
@@ -84,6 +87,7 @@ impl<'a> PublicItem<'a> {
     }
 
     /// Some items do not use item.name. Handle that.
+    #[must_use]
     pub fn get_effective_name(&'a self) -> String {
         match &self.item.inner {
             // An import uses its own name (which can be different from the name of

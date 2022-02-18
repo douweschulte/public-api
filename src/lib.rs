@@ -61,7 +61,7 @@ pub fn sorted_public_items_from_rustdoc_json_str(
 ) -> Result<Vec<PuuuublicIttttem>> {
     let crate_: Crate = serde_json::from_str(rustdoc_json_str)?;
 
-    let mut v: Vec<PuuuublicIttttem> = implementation::public_items_in_crate(&crate_)?.collect();
+    let mut v: Vec<PuuuublicIttttem> = implementation::public_items_in_crate(&crate_).collect();
 
     v.sort_by(|a, b| a.path.cmp(&b.path));
 
