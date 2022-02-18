@@ -34,7 +34,7 @@ impl<'a> PublicItem<'a> {
         Self { item, parent }
     }
 
-    fn path(&'a self) -> Vec<Rc<PublicItem<'a>>> {
+    pub fn path(&'a self) -> Vec<Rc<PublicItem<'a>>> {
         let mut path = vec![];
 
         let rc_self = Rc::new(self.clone());
@@ -50,8 +50,12 @@ impl<'a> PublicItem<'a> {
         path
     }
 
-    fn prefix_for_item(&'a self) -> String {
+    pub fn prefix(&'a self) -> String {
         format!("pub {} ", self.type_string_for_item())
+    }
+
+    pub(crate) fn suffix(&self) -> String {
+        format!("{}", ItemSuffix(self))
     }
 
     fn type_string_for_item(&self) -> &str {
@@ -80,7 +84,7 @@ impl<'a> PublicItem<'a> {
     }
 
     /// Some items do not use item.name. Handle that.
-    fn get_effective_name(&'a self) -> String {
+    pub fn get_effective_name(&'a self) -> String {
         match &self.item.inner {
             // An import uses its own name (which can be different from the name of
             // the imported item)
@@ -89,24 +93,6 @@ impl<'a> PublicItem<'a> {
             _ => self.item.name.as_deref().unwrap_or("<<no_name>>"),
         }
         .to_owned()
-    }
-}
-
-impl<'a> Display for PublicItem<'a> {
-    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
-        let path = self
-            .path()
-            .iter()
-            .map(|i| i.get_effective_name())
-            .collect::<Vec<String>>();
-
-        write!(
-            f,
-            "{}{}{}",
-            self.prefix_for_item(),
-            path.join("::"),
-            ItemSuffix(self),
-        )
     }
 }
 

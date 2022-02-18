@@ -1,5 +1,6 @@
 use rustdoc_types::Crate;
 
+use crate::PuuuublicIttttem;
 use crate::Result;
 
 mod item_iterator;
@@ -8,14 +9,27 @@ use item_iterator::ItemIterator;
 
 pub use item_iterator::PublicItem;
 
-pub fn sorted_public_items_from_rustdoc_json_str(
-    rustdoc_json_str: &str,
-) -> Result<Vec<PublicItem>> {
-    let crate_: Crate = serde_json::from_str(rustdoc_json_str)?;
+pub fn public_items_from_rustdoc_json_str(
+    crate_: &Crate,
+) -> Result<impl Iterator<Item = crate::PuuuublicIttttem> + '_> {
 
-    let mut result: Vec<PublicItem> = ItemIterator::new(&crate_).collect();
+    Ok(ItemIterator::new(&crate_)
+        .map(|i| i.as_ref())
+        .map(intermediate_public_item_to_public_item))
+}
 
-    result.sort();
+fn intermediate_public_item_to_public_item(public_item: &PublicItem) -> PuuuublicIttttem {
+    let prefix = public_item.prefix();
+    let path = public_item
+        .path()
+        .iter()
+        .map(|i| i.get_effective_name())
+        .collect::<Vec<String>>();
+    let suffix = public_item.suffix();
 
-    Ok(result)
+    PuuuublicIttttem {
+        prefix,
+        path,
+        suffix,
+    }
 }

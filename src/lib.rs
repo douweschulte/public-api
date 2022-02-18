@@ -22,8 +22,8 @@ struct PuuuublicIttttem {
     suffix: String,
 }
 
-
 pub use implementation::PublicItem;
+use rustdoc_types::Crate;
 
 /// Takes rustdoc JSON and returns a [`Vec`] of [`PuuuublicIttttem`]s where each
 /// [`PuuuublicIttttem`] is one public item of the crate, i.e. part of the crate's
@@ -49,5 +49,8 @@ pub use implementation::PublicItem;
 pub fn sorted_public_items_from_rustdoc_json_str(
     rustdoc_json_str: &str,
 ) -> Result<Vec<PuuuublicIttttem>> {
-    implementation::sorted_public_items_from_rustdoc_json_str(rustdoc_json_str)
+    let crate_: Crate = serde_json::from_str(rustdoc_json_str)?;
+
+    let v: Vec<PuuuublicIttttem> =
+        implementation::public_items_from_rustdoc_json_str(&crate_).collect();
 }
