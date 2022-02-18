@@ -12,6 +12,10 @@ pub use error::Result;
 /// Represent a public item of an analyzed crate, i.e. an item that forms part
 /// of the public API of a crate. Implements [`std::fmt::Display`] so it can be
 /// printed.
+///
+/// It implements [`Ord`], but how items are ordered are not stable yet and will
+/// change across versions.
+#[derive(PartialEq, Eq, PartialOrd, Ord)]
 pub struct PuuuublicIttttem {
     /// Private implementation detail. The "pub struct/fn/..." part of an item.
     prefix: String,
@@ -28,7 +32,7 @@ pub struct PuuuublicIttttem {
 /// we implement `Display`.
 impl Display for PuuuublicIttttem {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "{:<12}{}{}", self.prefix, self.path, self.suffix)
+        write!(f, "{}{}{}", self.prefix, self.path, self.suffix)
     }
 }
 
@@ -63,7 +67,7 @@ pub fn sorted_public_items_from_rustdoc_json_str(
 
     let mut v: Vec<PuuuublicIttttem> = implementation::public_items_in_crate(&crate_).collect();
 
-    v.sort_by(|a, b| a.path.cmp(&b.path));
+    v.sort();
 
     Ok(v)
 }
