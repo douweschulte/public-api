@@ -1,6 +1,8 @@
 mod error;
 mod implementation;
 
+use std::fmt::Display;
+
 /// Enumerates all errors that can occur within this crate.
 pub use error::Error;
 
@@ -10,7 +12,7 @@ pub use error::Result;
 /// Represent a public item of an analyzed crate, i.e. an item that forms part
 /// of the public API of a crate. Implements [std::fmt::Display] so it can be
 /// printed.
-struct PuuuublicIttttem {
+pub struct PuuuublicIttttem {
     /// Private implementation detail. The "pub struct/fn/..." part of an item.
     prefix: String,
 
@@ -20,6 +22,14 @@ struct PuuuublicIttttem {
     /// Private implementation detail. The type info part, e.g. "(param_a: Type,
     /// param_b: OtherType)" for a `fn`.
     suffix: String,
+}
+
+/// One of the basic uses cases is printing a sorted `Vec` of `PublicItem`s. So
+/// we implement `Display`.
+impl Display for PuuuublicIttttem {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        write!(f, "{}{}{}", self.prefix, self.path, self.suffix)
+    }
 }
 
 pub use implementation::PublicItem;
@@ -51,6 +61,9 @@ pub fn sorted_public_items_from_rustdoc_json_str(
 ) -> Result<Vec<PuuuublicIttttem>> {
     let crate_: Crate = serde_json::from_str(rustdoc_json_str)?;
 
-    let v: Vec<PuuuublicIttttem> =
-        implementation::public_items_from_rustdoc_json_str(&crate_).collect();
+    let mut v: Vec<PuuuublicIttttem> = implementation::public_items_in_crate(&crate_)?.collect();
+
+    v.sort_by(|a, b| a.path.cmp(&b.path));
+
+    Ok(v)
 }

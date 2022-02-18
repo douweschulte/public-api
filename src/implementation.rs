@@ -11,7 +11,7 @@ use item_iterator::ItemIterator;
 
 pub use item_iterator::PublicItem;
 
-pub fn public_items_from_rustdoc_json_str(
+pub fn public_items_in_crate(
     crate_: &Crate,
 ) -> Result<impl Iterator<Item = crate::PuuuublicIttttem> + '_> {
     Ok(ItemIterator::new(&crate_).map(intermediate_public_item_to_public_item))
