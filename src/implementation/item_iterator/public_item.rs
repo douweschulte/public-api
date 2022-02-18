@@ -21,7 +21,7 @@ use std::fmt::Result;
 #[derive(Debug, Clone)]
 pub struct PublicItem<'a> {
     /// The item we are effectively wrapping.
-    pub item: &'a Item,
+    item: &'a Item,
 
     /// The parent item. If [Self::item] is e.g. an enum variant, then the
     /// parent is an enum. We follow the chain of parents to be able to know the
