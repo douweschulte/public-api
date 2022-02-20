@@ -29,11 +29,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
-    - run: cargo clippy --all-targets --all-features -- -D clippy::all -D clippy::pedantic
+    - run: RUSTFLAGS='-D warnings' cargo clippy --all-targets --all-features -- -D clippy::all -D clippy::pedantic
 
   cargo-test:
     name: cargo test
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
-    - run: cargo test
+    - run: RUSTFLAGS='-D warnings' cargo test

@@ -1,6 +1,8 @@
 mod error;
 mod implementation;
 
+use std::fmt::Display;
+
 /// Enumerates all errors that can occur within this crate.
 pub use error::Error;
 

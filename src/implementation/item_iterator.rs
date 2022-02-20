@@ -54,16 +54,12 @@ impl<'a> ItemIterator<'a> {
 
     fn add_children_for_item(&mut self, public_item: &Rc<IntermediatePublicItem<'a>>) {
         // Handle any impls. See [`ItemIterator::impls`] docs for more info.
-        let mut add_after_borrow = vec![];
         if let Some(impls) = self.impls.get(&public_item.item.id) {
-            for impl_ in impls {
+            for impl_ in impls.clone() {
                 for id in &impl_.items {
-                    add_after_borrow.push((id, &impl_.trait_));
+                    self.try_add_item_to_visit(id, &impl_.trait_, Some(public_item.clone()));
                 }
             }
-        }
-        for id_and_trait in add_after_borrow {
-            self.try_add_item_to_visit(id_and_trait.0, id_and_trait.1, Some(public_item.clone()));
         }
 
         // Handle regular children of the item
