@@ -47,7 +47,7 @@ impl<'a> ItemIterator<'a> {
         };
 
         // Bootstrap with the root item
-        s.try_add_item_to_visit(&crate_.root, None);
+        s.try_add_item_to_visit(&crate_.root, &None, None);
 
         s
     }
@@ -58,23 +58,24 @@ impl<'a> ItemIterator<'a> {
         if let Some(impls) = self.impls.get(&public_item.item.id) {
             for impl_ in impls {
                 for id in &impl_.items {
-                    add_after_borrow.push(id);
+                    add_after_borrow.push((id, &impl_.trait_));
                 }
             }
         }
-        for id in add_after_borrow {
-            self.try_add_item_to_visit(id, Some(public_item.clone()));
+        for id_and_trait in add_after_borrow {
+            self.try_add_item_to_visit(id_and_trait.0, id_and_trait.1, Some(public_item.clone()));
         }
 
         // Handle regular children of the item
         for child in items_in_container(public_item.item).into_iter().flatten() {
-            self.try_add_item_to_visit(child, Some(public_item.clone()));
+            self.try_add_item_to_visit(child, &None, Some(public_item.clone()));
         }
     }
 
     fn try_add_item_to_visit(
         &mut self,
         id: &'a Id,
+        as_trait: &'a Option<Type>,
         parent: Option<Rc<IntermediatePublicItem<'a>>>,
     ) {
         match self.crate_.index.get(id) {
@@ -87,7 +88,7 @@ impl<'a> ItemIterator<'a> {
 
             Some(item) => self
                 .items_left
-                .push(Rc::new(IntermediatePublicItem::new(item, parent))),
+                .push(Rc::new(IntermediatePublicItem::new(item, as_trait, parent))),
 
             None => self.missing_ids.push(id),
         }

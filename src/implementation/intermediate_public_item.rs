@@ -19,6 +19,10 @@ pub struct IntermediatePublicItem<'a> {
     /// The item we are effectively wrapping.
     pub item: &'a Item,
 
+    /// If Some, this item is part of a trait. For example, if the `item` is `fn
+    /// clone()`, then `as_trait` will be `Clone`.
+    pub as_trait: &'a Option<Type>,
+
     /// The parent item. If [Self::item] is e.g. an enum variant, then the
     /// parent is an enum. We follow the chain of parents to be able to know the
     /// correct path to an item in the output.
@@ -27,8 +31,16 @@ pub struct IntermediatePublicItem<'a> {
 
 impl<'a> IntermediatePublicItem<'a> {
     #[must_use]
-    pub fn new(item: &'a Item, parent: Option<Rc<IntermediatePublicItem<'a>>>) -> Self {
-        Self { item, parent }
+    pub fn new(
+        item: &'a Item,
+        as_trait: &'a Option<Type>,
+        parent: Option<Rc<IntermediatePublicItem<'a>>>,
+    ) -> Self {
+        Self {
+            item,
+            as_trait,
+            parent,
+        }
     }
 
     #[must_use]
@@ -137,7 +149,11 @@ impl Display for ItemSuffix<'_> {
             }
             ItemEnum::Macro(_) | ItemEnum::ProcMacro(_) => write!(f, "!"),
             _ => Ok(()),
+        }?;
+        if let Some(Type::ResolvedPath { name, .. }) = &self.0.as_trait {
+            write!(f, " (as {})", name)?;
         }
+        Ok(())
     }
 }
 
