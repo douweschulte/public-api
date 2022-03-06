@@ -8,6 +8,8 @@ List public items (the public API) of a Rust library crate by analyzing the rust
 
 # Usage
 
+## Thin `public_items` wrapper utility
+
 If you prefer not to use the convenient [`cargo public-items`](https://crates.io/crates/cargo-public-items) wrapper, do like this:
 
 ```bash
@@ -22,7 +24,7 @@ RUSTDOCFLAGS='-Z unstable-options --output-format json' cargo +nightly doc --lib
 public_items ./target/doc/your_library.json
 ```
 
-## Diffing
+## Library
 
 This library contains APIs to diff different versions of the same public API. This API is currently only used in tests and in `cargo public-items`, but not the `public_items` binary.
 
@@ -56,6 +58,10 @@ pub type public_items::Result<T> = std::result::Result<T, Error>
 ```
 
 Tip: By writing the public API to a file for two different versions of your library, you can diff your public API across versions.
+
+# Example: Diff 
+
+asdf
 
 # Expected output
 
